@@ -1,5 +1,7 @@
 # rc_car
 
+Client Control Software Hosted: https://github.com/timhealey3/rc_car_websocket
+
 This is a current on going project. I am building a rc car (not actually remote control but you get the idea) from scratch.
 
 Hardware:
