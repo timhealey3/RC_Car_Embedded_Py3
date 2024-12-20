@@ -1,6 +1,9 @@
 from logging import Logger
 
 import Control
+from src.camera.camera import Camera
+from src.car.Telemetry import Telemetry
+
 
 class RC_Car:
     def __init__(self, speed = 0, direction = 0):
@@ -9,6 +12,12 @@ class RC_Car:
         self.autonomous_mode = False
         self.training_mode = False
         self.controls = Control()
+        self.telemetry = Telemetry()
+        self.camera = Camera()
+
+    def take_photo(self):
+        forward_data, left_data, right_data = self.telemetry.get_training_data()
+        self.camera.take_photo_training(forward_data, left_data, right_data)
 
     def turn(self, newDirection):
         Logger.debug("Turning car")
@@ -36,8 +45,3 @@ class RC_Car:
         self.speed += newSpeed
         print(f"New speed: {self.speed}")
         self.controls.motorsForward()
-
-    def telemetry(self):
-        print(f"Speed: {self.speed}")
-        print(f"Direction: {self.direction}")
-        return self.speed, self.direction
