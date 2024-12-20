@@ -52,7 +52,3 @@ class Control:
         # Clean up GPIO settings
         GPIO.cleanup()
         # self.pwm.stop()
-
-car = Control()
-#car.motorsStop()
-car.cleanUp()

@@ -1,7 +1,7 @@
-from newCar import newCar
+from src.car import RC_Car
 
 print("Setting up car")
-my_car = newCar()
+rc_car = RC_Car()
 
 def incoming_data(data):
     print(f"Incoming data: {data}")
@@ -10,12 +10,12 @@ def incoming_data(data):
 
     elif data.get('status') == 'NONE':
         if data.get('forward') == "FORWARD":
-            my_car.accelerate(1)
+            rc_car.accelerate(1)
         if data.get('forward') == "BACKWARD":
-            my_car.accelerate(-1)
+            rc_car.accelerate(-1)
         if data.get('turn') == "LEFT":
-            my_car.turn(1)
+            rc_car.turn(1)
         if data.get('turn') == "RIGHT":
-            my_car.turn(-1)
+            rc_car.turn(-1)
     else:
         print("Unknown command status")
