@@ -1,7 +1,10 @@
-from src.car import RC_Car
+import logging
+import sys
+sys.path.append('/home/timh/codingProjects/src/car') 
+from RC_Car import RC_Car
 
-print("Setting up car")
-rc_car = RC_Car()
+print("Setting up websocket")
+rc_car = RC_Car
 
 def incoming_data(data):
     print(f"Incoming data: {data}")

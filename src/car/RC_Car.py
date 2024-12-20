@@ -1,9 +1,9 @@
+import sys
 from logging import Logger
-
 import Control
-from src.camera.camera import Camera
-from src.car.Telemetry import Telemetry
-
+import Telemetry
+sys.path.append('/home/timh/codingProjects/src/camera')
+import Camera
 
 class RC_Car:
     def __init__(self, speed = 0, direction = 0):
@@ -23,15 +23,13 @@ class RC_Car:
         Logger.debug("Turning car")
         self.direction += newDirection
         Logger.debug(f"New direction: {self.direction}")
-        match newDirection:
-            case -1:
-                self.turn_right()
-            case 1:
-                self.turn_left()
-            case _:
-                Logger.warning("No Direction specified in turn statement")
-
-
+        if newDirection == -1:
+            self.turn_right()
+        elif newDirection == 1:
+            self.turn_left()
+        else:
+            Logger.warning("No direction specified in turn function")
+        
     def turn_left(self):
         Logger.debug("Turning car left")
         self.controls.turnLeft()

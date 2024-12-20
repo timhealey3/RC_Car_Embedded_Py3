@@ -1,11 +1,12 @@
 import unittest
-
-from src.car import RC_Car
-
+import sys
+sys.path.append('/home/timh/codingProjects/src/car')
+import RC_Car
 
 class MyTestCase(unittest.TestCase):
     def test_car_controls(self):
         #TODO write tests
-        pass
+        car = RC_Car()
+        
 if __name__ == '__main__':
     unittest.main()
