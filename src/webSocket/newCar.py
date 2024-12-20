@@ -1,9 +1,12 @@
+import Control
+
 class newCar:
     def __init__(self, speed = 0, direction = 0):
         self.speed = speed
         self.direction = direction
         self.autonomous_mode = False
         self.training_mode = False
+        self.controls = Control()
 
     def turn(self, newDirection):
         print("Turning car")
@@ -16,6 +19,7 @@ class newCar:
         self.speed += newSpeed
         print(f"New speed: {self.speed}")
         spin_wheels()
+        #self.controls.motorsForward()
 
     def telemetry(self):
         print(f"Speed: {self.speed}")
