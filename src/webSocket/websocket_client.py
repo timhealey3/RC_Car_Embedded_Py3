@@ -16,7 +16,7 @@ def on_close(ws, close_status_code, close_msg):
     print("Disconnected from server")
 
 socket = websocket.WebSocketApp(
-        "INPUT WEB ADDRESS",
+    'INPUT WEB SOCKET HERE',
     on_open=on_open,
     on_message=on_message,
     on_close=on_close,

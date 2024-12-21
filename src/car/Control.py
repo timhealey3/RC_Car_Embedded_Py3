@@ -9,8 +9,8 @@ class Control:
         GPIO.setmode(GPIO.BCM)
         self.IN1_MOTOR1_PIN = 17
         self.IN2_MOTOR1_PIN = 27   
-        self.IN1_MOTOR2_PIN = 22
-        self.IN2_MOTOR2_PIN = 23
+        self.IN1_MOTOR2_PIN = 23
+        self.IN2_MOTOR2_PIN = 24
 
         GPIO.setup(self.IN1_MOTOR1_PIN, GPIO.OUT)
         GPIO.setup(self.IN2_MOTOR1_PIN, GPIO.OUT)             

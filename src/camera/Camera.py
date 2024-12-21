@@ -49,7 +49,7 @@ class Camera:
             self.image_array = np.array(self.image)
             self.processed_image = self.img_preprocess(self.image_array)
             self.pilImage = Image.fromarray(self.processed_image)
-            self.image_name = 'training/foo' + str(datetime.now()) +'.jpg'
+            self.image_name = '../camera/training/foo' + str(datetime.now()) +'.jpg'
             self.image.save(self.image_name)
             self.df = pd.DataFrame({self.image_name, forward, left, right})
             self.df.to_csv('training_data.csv', index=False)
