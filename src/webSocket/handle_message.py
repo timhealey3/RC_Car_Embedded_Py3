@@ -11,8 +11,8 @@ def incoming_data(data):
     if data.get('status') == "START":
         print("Info - Handle Message: Car is starting")
 
-    if data.get('status') == "STOP":
-        print("Info - Handle Message: Car is stopping")
+    if data.get('status') == "OFF":
+        print("Info - Handle Message: Car is starting Off procedure")
         rc_car.stop()
 
     if data.get('status') == "MANUAL":
