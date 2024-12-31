@@ -3,7 +3,7 @@ from logging import Logger
 from Control import Control
 from Telemetry import Telemetry
 sys.path.append('/home/timh/codingProjects/src/camera')
-from Camera import Camera
+# from Camera import Camera
 
 class RC_Car:
     def __init__(self):
@@ -13,11 +13,11 @@ class RC_Car:
         self.training_mode = False
         self.controls = Control()
         self.telemetry = Telemetry()
-        self.camera = Camera()
+        # self.camera = Camera()
 
     def take_photo(self):
         forward_data, left_data, right_data = self.telemetry.get_training_data()
-        self.camera.take_photo_training(forward_data, left_data, right_data)
+        # self.camera.take_photo_training(forward_data, left_data, right_data)
 
     def turn(self, newDirection):
         self.direction += newDirection
@@ -26,7 +26,7 @@ class RC_Car:
         elif newDirection == 1:
             self.turn_left()
         else:
-            Logger.warning("No di   rection specified in turn function")
+            Logger.warning("No direction specified in turn function")
         
     def turn_left(self):
         self.controls.turnLeft()
