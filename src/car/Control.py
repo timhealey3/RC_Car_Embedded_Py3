@@ -1,8 +1,6 @@
 import RPi.GPIO as GPIO
-import time
 
 # This class controls the two motors on the car
-
 class Control:
     def __init__(self):
         # set up gpio output pins for motors one and two
@@ -12,24 +10,32 @@ class Control:
         self.IN2_MOTOR1_PIN = 27   
         self.IN1_MOTOR2_PIN = 23
         self.IN2_MOTOR2_PIN = 24
+        self.ENA_FRONT = 18
+        self.ENB_FRONT = 19
         # back motors
         self.IN1_MOTOR3_PIN = 26
         self.IN2_MOTOR3_PIN = 13
         self.IN1_MOTOR4_PIN = 6
         self.IN2_MOTOR4_PIN = 5
-        # set up
+
+        # set up front motors
         GPIO.setup(self.IN1_MOTOR1_PIN, GPIO.OUT)
         GPIO.setup(self.IN2_MOTOR1_PIN, GPIO.OUT)             
         GPIO.setup(self.IN1_MOTOR2_PIN, GPIO.OUT)
-        GPIO.setup(self.IN2_MOTOR2_PIN, GPIO.OUT) 
+        GPIO.setup(self.IN2_MOTOR2_PIN, GPIO.OUT)
+        # set up back motors
         GPIO.setup(self.IN1_MOTOR3_PIN, GPIO.OUT)
         GPIO.setup(self.IN2_MOTOR3_PIN, GPIO.OUT)
         GPIO.setup(self.IN1_MOTOR4_PIN, GPIO.OUT)
         GPIO.setup(self.IN2_MOTOR4_PIN, GPIO.OUT)
         # pwm set up
-        # GPIO.setup(18, GPIO.OUT)   
-        # self.pwm = GPIO.PWM(18, 100)
-        # self.pwm.start(0)
+        GPIO.setup(self.ENA_FRONT, GPIO.OUT)
+        GPIO.setup(self.ENB_FRONT, GPIO.OUT)
+        self.PWM_ENA_FRONT = GPIO.PWM(self.ENA_FRONT, 100)
+        self.PWM_ENB_FRONT = GPIO.PWM(self.ENB_FRONT, 100)
+        # start PWM
+        self.PWM_ENA_FRONT.start(0)
+        self.PWM_ENB_FRONT.start(0)
     
     def motorsForward(self):
         # move motor one forward
