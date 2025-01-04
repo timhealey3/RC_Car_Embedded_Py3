@@ -14,9 +14,11 @@ class Control:
         self.ENB_FRONT = 19
         # back motors
         self.IN1_MOTOR3_PIN = 26
-        self.IN2_MOTOR3_PIN = 13
+        self.IN2_MOTOR3_PIN = 16
         self.IN1_MOTOR4_PIN = 6
         self.IN2_MOTOR4_PIN = 5
+        self.ENA_BACK = 12
+        self.ENB_BACK = 13
 
         # set up front motors
         GPIO.setup(self.IN1_MOTOR1_PIN, GPIO.OUT)
@@ -31,13 +33,24 @@ class Control:
         # pwm set up
         GPIO.setup(self.ENA_FRONT, GPIO.OUT)
         GPIO.setup(self.ENB_FRONT, GPIO.OUT)
+        GPIO.setup(self.ENA_BACK, GPIO.OUT)
+        GPIO.setup(self.ENB_BACK, GPIO.OUT)
+        # set pwm freq
         self.PWM_ENA_FRONT = GPIO.PWM(self.ENA_FRONT, 100)
         self.PWM_ENB_FRONT = GPIO.PWM(self.ENB_FRONT, 100)
+        self.PWM_ENA_BACK = GPIO.PWM(self.ENA_BACK, 100)
+        self.PWM_ENB_BACK = GPIO.PWM(self.ENB_BACK, 100)
         # start PWM
         self.PWM_ENA_FRONT.start(0)
         self.PWM_ENB_FRONT.start(0)
+        self.PWM_ENA_BACK.start(0)
+        self.PWM_ENB_BACK.start(0)
     
     def motorsForward(self):
+        self.PWM_ENA_FRONT.ChangeDutyCycle(25)
+        self.PWM_ENB_FRONT.ChangeDutyCycle(25)
+        self.PWM_ENA_BACK.ChangeDutyCycle(25)
+        self.PWM_ENB_BACK.ChangeDutyCycle(25)
         # move motor one forward
         GPIO.output(self.IN1_MOTOR1_PIN, GPIO.HIGH)
         GPIO.output(self.IN2_MOTOR1_PIN, GPIO.LOW)
