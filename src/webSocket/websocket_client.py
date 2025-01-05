@@ -1,7 +1,6 @@
 import websocket
 import json
 import handle_message
-from src.car.Telemetry import Telemetry
 
 
 def on_open(ws):
@@ -9,10 +8,9 @@ def on_open(ws):
     message = {"status": "connected", "message": "Client has connected to the server"}
     ws.send(json.dumps(message))
 
-def telemetry_get(tele: Telemetry):
-    print("sending telemetry data")
-    message = {"telemetry": tele}
-    socket.send(json.dumps(message))
+def telemetry_send(tele_data):
+    print(f"sending telemetry data {tele_data}")
+    socket.send(json.dumps(tele_data))
 
 def on_message(ws, message):
     data = json.loads(message)

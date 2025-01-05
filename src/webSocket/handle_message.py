@@ -1,4 +1,3 @@
-import logging
 import sys
 sys.path.append('/home/timh/codingProjects/src/car') 
 from RC_Car import RC_Car
@@ -28,14 +27,18 @@ def incoming_data(data):
         if data.get('forward') == "FORWARD":
             print("Debug - Handle Message: Forward")
             rc_car.accelerate()
+            telemetry_send(rc_car.telemetry.data())
         if data.get('forward') == "BACKWARD":
             print("Debug - Handle Message: Stop")
             rc_car.stop()
+            telemetry_send(rc_car.telemetry.data())
         if data.get('turn') == "LEFT":
             print("Debug - Handle Message: Left")
             rc_car.turn_left()
+            telemetry_send(rc_car.telemetry.data())
         if data.get('turn') == "RIGHT":
             print("Debug - Handle Message: Right")
             rc_car.turn_right()
+            telemetry_send(rc_car.telemetry.data())
     else:
         print("Unknown command status")

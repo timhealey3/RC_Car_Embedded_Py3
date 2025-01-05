@@ -10,3 +10,6 @@ class Telemetry:
 
     def get_training_data(self):
         return [self.forward, self.left, self.right]
+
+    def data(self):
+        return [self.on, self.forward, self.backward, self.left, self.right, self.throttle]
