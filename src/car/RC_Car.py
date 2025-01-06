@@ -7,6 +7,7 @@ sys.path.append('/home/timh/codingProjects/src/camera')
 
 class RC_Car:
     def __init__(self):
+        print("init car")
         self.speed = 0
         self.direction = 0
         self.autonomous_mode = False
