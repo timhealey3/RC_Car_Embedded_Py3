@@ -53,14 +53,15 @@ class RC_Car:
         self.throttleHelper(-1)
 
     def throttleHelper(self, newThrottle):
-        if self.telemetry.throttle + newThrottle < 4 and self.telemetry.throttle > 0:
+        print("in throttle helper")
+        if self.telemetry.throttle + newThrottle < 4:
             print(f"changing speed to {self.telemetry.throttle + newThrottle}")
             self.telemetry.throttle += newThrottle
-            self.controls.motorsForward(newThrottle)
+            self.controls.motorsForward(self.telemetry.throttle)
         elif self.telemetry.throttle + newThrottle >= 4:
             print("RC_Car is at max speed")
             self.telemetry.throttle = 4
-            self.controls.motorsForward(newThrottle)
+            self.controls.motorsForward(self.telemetry.throttle)
         elif self.telemetry.throttle + newThrottle <= 0:
             print("RC_Car is at zero speed")
             self.telemetry.throttle = 0

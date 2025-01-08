@@ -9,19 +9,19 @@ def incoming_data(data):
     print(f"Debug - Handle Message: Incoming data: {data}")
     if data.get('status') == "START":
         print("Info - Handle Message: Car is starting")
-    elif data.get('status') == "OFF":
+    if data.get('status') == "OFF":
         print("Info - Handle Message: Car is starting Off procedure")
         rc_car.stop()
-    elif data.get('status') == "MANUAL":
+    if data.get('status') == "MANUAL":
         print("Info - Handle Message: Car is in manual mode")
         
-    elif data.get('status') == "TRAINING":
+    if data.get('status') == "TRAINING":
         print("Info - Handle Message: Car is in training mode")
 
-    elif data.get('status') == "AUTO":
+    if data.get('status') == "AUTO":
         print("Info - Handle Message: Car is in auto mode")
 
-    if data.get('status') == 'NONE':
+    elif data.get('status') == 'NONE':
         if data.get('forward') == "FORWARD":
             print("Debug - Handle Message: Forward")
             rc_car.accelerate()

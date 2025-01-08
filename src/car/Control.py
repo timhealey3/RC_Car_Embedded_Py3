@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import pigpio
+import time
 # This class controls the two motors on the car
 
 class Control:
@@ -38,6 +39,7 @@ class Control:
         GPIO.setup(self.IN2_MOTOR4_PIN, GPIO.OUT, initial=GPIO.LOW)
 
     def pwmDutyCycle(self, dutyCycleNum):
+        print(f"setting pwm duty cylce to {dutyCycleNum}")
         self.pi.set_PWM_dutycycle(self.pin1A, dutyCycleNum)
         self.pi.set_PWM_dutycycle(self.pin1B, dutyCycleNum)
         self.pi.set_PWM_dutycycle(self.pin2A, dutyCycleNum)
@@ -63,11 +65,23 @@ class Control:
         GPIO.output(self.IN2_MOTOR3_PIN, GPIO.HIGH)
         # move motor four forward
         GPIO.output(self.IN1_MOTOR4_PIN, GPIO.HIGH)
-        GPIO.output(self.IN2_MOTOR4_PIN, GPIO.LOW)
 
     @staticmethod
-    def convertThrottle(self, pwmThrottle):
-        return pwmThrottle * 64 if pwmThrottle * 64 < 256 else pwmThrottle * 64 - 1
+    def convertThrottle(pwmThrottle):
+        print(f"converted {pwmThrottle} to {pwmThrottle * 64}")
+        res = 0
+        if (pwmThrottle == 0):
+            pass
+        elif (pwmThrottle == 1):
+            res = 128
+        elif (pwmThrottle == 2):
+            res = 192
+        elif (pwmThrottle == 3):
+            res = 255
+        else:
+            res = 255
+        return res
+
 
     def turnLeft(self):
         # turn motor 1 off

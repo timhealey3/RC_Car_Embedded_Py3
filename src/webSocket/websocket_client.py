@@ -19,7 +19,7 @@ def on_open(ws):
 def on_message(ws, message):
     data = json.loads(message)
     print(f"received from server: {data}")
-
+    handle_message.incoming_data(data)
 def on_close(ws, close_status_code, close_msg):
     print("Disconnected from server")
 
