@@ -77,7 +77,7 @@ class Control:
         elif (pwmThrottle == 2):
             res = 192
         elif (pwmThrottle == 3):
-            res = 255
+            res = 224
         else:
             res = 255
         return res

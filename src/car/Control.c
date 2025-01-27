@@ -30,10 +30,22 @@ void pwmDutyCycle(int cycleNum) {
     gpioPWM(PIN_2B, cycleNum);
 }
 
+void motorsStop() {
+    pwmDutyCycle(0);
+    gpioWrite(PIN1_MOTOR1, PI_LOW);
+    gpioWrite(PIN2_MOTOR1, PI_LOW);
+    gpioWrite(PIN1_MOTOR2, PI_LOW);
+    gpioWrite(PIN2_MOTOR2, PI_LOW);
+    gpioWrite(PIN1_MOTOR3, PI_LOW);
+    gpioWrite(PIN2_MOTOR3, PI_LOW);
+    gpioWrite(PIN1_MOTOR4, PI_LOW);
+    gpioWrite(PIN2_MOTOR4, PI_LOW);
+}
+
 void cleanup() {
     // stop motors
+    motorsStop();    
     // clean gpio
-    // turn off pigpio
     gpioTerminate();
 }
 
@@ -80,16 +92,16 @@ void motorsForward(int throttle) {
     gpioWrite(PIN2_MOTOR4, PI_LOW);
 }
 
-void motorsStop() {
-    pwmDutyCycle(0);
-    gpioWrite(PIN1_MOTOR1, PI_LOW);
-    gpioWrite(PIN2_MOTOR1, PI_LOW);
+void turnRight() {
+    // turn motor 2 off
     gpioWrite(PIN1_MOTOR2, PI_LOW);
     gpioWrite(PIN2_MOTOR2, PI_LOW);
-    gpioWrite(PIN1_MOTOR3, PI_LOW);
-    gpioWrite(PIN2_MOTOR3, PI_LOW);
-    gpioWrite(PIN1_MOTOR4, PI_LOW);
-    gpioWrite(PIN2_MOTOR4, PI_LOW);
+}
+
+void turnLeft() {
+    // turn motor 1
+    gpioWrite(PIN1_MOTOR1, PI_LOW);
+    gpioWrite(PIN2_MOTOR1, PI_LOW);
 }
 
 int setup() {

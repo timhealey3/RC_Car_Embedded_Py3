@@ -7,19 +7,16 @@ def on_open(ws):
     message = {"status": "connected", "message": "Client has connected to the server"}
     ws.send(json.dumps(message))
 
-#def telemetry_send(tele_data):
-#    print(f"sending telemetry data {tele_data}")
-#    socket.send(json.dumps(tele_data))
-
-#def telemetry_get(ws):
-#    print("sending telemetry data")
-#    message = {"telemetry": tele}
-#    socket.send(json.dumps(message))
+def telemetry_send(tele_data):
+    print(f"sending telemetry data {tele_data}")
+    socket.send(json.dumps(tele_data))
 
 def on_message(ws, message):
     data = json.loads(message)
     print(f"received from server: {data}")
     handle_message.incoming_data(data)
+    telemetry_send(handle_message.get_data())
+
 def on_close(ws, close_status_code, close_msg):
     print("Disconnected from server")
 

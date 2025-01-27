@@ -1,6 +1,6 @@
+import ctypes
 import sys
 from logging import Logger
-from Control import Control
 from Telemetry import Telemetry
 sys.path.append('/home/timh/codingProjects/src/camera')
 # from Camera import Camera
@@ -13,9 +13,11 @@ class RC_Car:
         self.direction = 0
         self.autonomous_mode = False
         self.training_mode = False
-        self.controls = Control()
+        self.control = ctypes.CDLL("../car/Control.so")
+        self.control.setup()
         self.telemetry = Telemetry()
         # self.camera = Camera()
+        print("car set up")
 
     def take_photo(self):
         forward_data, left_data, right_data = self.telemetry.get_training_data()
@@ -31,18 +33,18 @@ class RC_Car:
             Logger.warning("No direction specified in turn function")
         
     def turn_left(self):
-        self.controls.turnLeft()
+        self.control.turnLeft()
 
     def turn_right(self):
-        self.controls.turnRight()
+        self.control.turnRight()
 
     def stop(self):
         print("stop car")
-        self.controls.motorsStop()
+        self.control.motorsStop()
 
     def turnOff(self):
         print("turning off car")
-        self.controls.cleanUp()
+        self.control.cleanup()
     
     def accelerate(self):
         print("Accelerating car")
@@ -57,12 +59,12 @@ class RC_Car:
         if self.telemetry.throttle + newThrottle < 4:
             print(f"changing speed to {self.telemetry.throttle + newThrottle}")
             self.telemetry.throttle += newThrottle
-            self.controls.motorsForward(self.telemetry.throttle)
+            self.control.motorsForward(self.telemetry.throttle)
         elif self.telemetry.throttle + newThrottle >= 4:
             print("RC_Car is at max speed")
             self.telemetry.throttle = 4
-            self.controls.motorsForward(self.telemetry.throttle)
+            self.control.motorsForward(self.telemetry.throttle)
         elif self.telemetry.throttle + newThrottle <= 0:
             print("RC_Car is at zero speed")
             self.telemetry.throttle = 0
-            self.controls.motorsStop()
+            self.control.motorsStop()

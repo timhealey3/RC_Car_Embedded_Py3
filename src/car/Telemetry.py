@@ -12,4 +12,4 @@ class Telemetry:
         return [self.forward, self.left, self.right]
 
     def data(self):
-        return [self.on, self.forward, self.backward, self.left, self.right, self.throttle]
+        return {"on": self.on, "forward": self.forward, "backward": self.backward, "left": self.left, "right": self.right, "throttle": self.throttle}

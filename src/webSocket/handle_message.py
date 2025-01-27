@@ -5,6 +5,10 @@ from RC_Car import RC_Car
 print("Setting up websocket")
 rc_car = RC_Car()
 
+def get_data():
+    print("get data")
+    return rc_car.telemetry.data()
+
 def incoming_data(data):
     print(f"Debug - Handle Message: Incoming data: {data}")
     if data.get('status') == "START":
@@ -12,6 +16,8 @@ def incoming_data(data):
     if data.get('status') == "OFF":
         print("Info - Handle Message: Car is starting Off procedure")
         rc_car.stop()
+        rc_car.turnOff()
+
     if data.get('status') == "MANUAL":
         print("Info - Handle Message: Car is in manual mode")
         
@@ -25,7 +31,6 @@ def incoming_data(data):
         if data.get('forward') == "FORWARD":
             print("Debug - Handle Message: Forward")
             rc_car.accelerate()
-            # telemetry_send(rc_car.telemetry.data())
         if data.get('forward') == "BACKWARD":
             print("Debug - Handle Message: Stop")
             rc_car.stop()
