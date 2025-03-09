@@ -25,6 +25,7 @@ class Camera:
     def img_preprocess(self, image):
         print("preprocessing image")
         self.img = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
+        self.img = np.flipud(self.img)
         return self.img
 
     # does not save photo
@@ -49,10 +50,10 @@ class Camera:
             self.image_array = np.array(self.image)
             self.processed_image = self.img_preprocess(self.image_array)
             self.pilImage = Image.fromarray(self.processed_image)
-            self.image_name = '../camera/training/foo' + str(datetime.now()) +'.jpg'
-            self.image.save(self.image_name)
-            self.df = pd.DataFrame({self.image_name, forward, left, right})
-            self.df.to_csv('training_data.csv', index=False)
+            self.image_name = 'training_' + str(datetime.now()) +'.jpg'
+            self.pilImage.save('training/' + self.image_name)
+            self.df = pd.DataFrame([[self.image_name, forward, left, right]], columns=["img", "forward", "left", "right"])
+            self.df.to_csv('training_data.csv', mode='a', index=False, header=False)
         else:
             raise Exception("Camera is not ready, training mode")
 
