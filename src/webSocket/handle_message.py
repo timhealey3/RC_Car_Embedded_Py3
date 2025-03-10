@@ -1,18 +1,25 @@
+import sched, time
 import sys
-sys.path.append('/home/timh/codingProjects/src/car') 
+sys.path.append('/home/timh/codingProjects/src/car')
 from RC_Car import RC_Car
 
 print("Setting up websocket")
 rc_car = RC_Car()
 
 def get_data():
-    print("get data")
+    print("Info - get data")
     return rc_car.telemetry.data()
+
+def training_data():
+    print("Info - Entering training data process")
+    rc_car.training()
 
 def incoming_data(data):
     print(f"Debug - Handle Message: Incoming data: {data}")
+    
     if data.get('status') == "START":
         print("Info - Handle Message: Car is starting")
+        
     if data.get('status') == "OFF":
         print("Info - Handle Message: Car is starting Off procedure")
         rc_car.stop()
@@ -20,12 +27,10 @@ def incoming_data(data):
 
     if data.get('status') == "MANUAL":
         print("Info - Handle Message: Car is in manual mode")
-        
+
     if data.get('status') == "TRAINING":
         print("Info - Handle Message: Car is in training mode")
-
-    if data.get('status') == "AUTO":
-        print("Info - Handle Message: Car is in auto mode")
+        rc_car.training_mode = True
 
     elif data.get('status') == 'NONE':
         if data.get('forward') == "FORWARD":

@@ -51,9 +51,9 @@ class Camera:
             self.processed_image = self.img_preprocess(self.image_array)
             self.pilImage = Image.fromarray(self.processed_image)
             self.image_name = 'training_' + str(datetime.now()) +'.jpg'
-            self.pilImage.save('training/' + self.image_name)
+            self.pilImage.save('../camera/training/' + self.image_name)
             self.df = pd.DataFrame([[self.image_name, forward, left, right]], columns=["img", "forward", "left", "right"])
-            self.df.to_csv('training_data.csv', mode='a', index=False, header=False)
+            self.df.to_csv('../camera/training_data.csv', mode='a', index=False, header=False)
+            print("Photo saved and processed")
         else:
             raise Exception("Camera is not ready, training mode")
-

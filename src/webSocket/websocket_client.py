@@ -1,6 +1,13 @@
 import websocket
 import json
 import handle_message
+import threading
+import time
+
+def training_send():
+    print("training data send")
+    handle_message.training_data()
+    threading.Timer(10, training_send).start()
 
 def on_open(ws):
     print("Connected to server")
@@ -9,7 +16,7 @@ def on_open(ws):
 
 def telemetry_send(tele_data):
     print(f"sending telemetry data {tele_data}")
-    socket.send(json.dumps(tele_data))
+    ws.send(json.dumps(tele_data))
 
 def on_message(ws, message):
     data = json.loads(message)
@@ -20,11 +27,16 @@ def on_message(ws, message):
 def on_close(ws, close_status_code, close_msg):
     print("Disconnected from server")
 
+# Check if photo needs to be taken every 1 second in a separate thread
+training_send()
+
 socket = websocket.WebSocketApp(
-    'ENTER WEB ADDRESS HERE',
+    'ENTER VALUES HERE',
     on_open=on_open,
     on_message=on_message,
     on_close=on_close,
 )
 
-socket.run_forever()
+# Start the WebSocket in a separate thread
+socket_thread = threading.Thread(target=socket.run_forever)
+socket_thread.start()
