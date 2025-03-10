@@ -38,7 +38,7 @@ def incoming_data(data):
             rc_car.accelerate()
         if data.get('forward') == "BACKWARD":
             print("Debug - Handle Message: Stop")
-            rc_car.stop()
+            rc_car.decelerate()
         if data.get('turn') == "LEFT":
             print("Debug - Handle Message: Left")
             rc_car.turn_left()

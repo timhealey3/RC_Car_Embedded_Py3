@@ -4,19 +4,25 @@ import handle_message
 import threading
 import time
 
+ws = None
+
 def training_send():
     print("training data send")
     handle_message.training_data()
     threading.Timer(10, training_send).start()
 
-def on_open(ws):
+def on_open(ws_param):
+    global ws
+    ws = ws_param
     print("Connected to server")
     message = {"status": "connected", "message": "Client has connected to the server"}
     ws.send(json.dumps(message))
 
 def telemetry_send(tele_data):
     print(f"sending telemetry data {tele_data}")
-    ws.send(json.dumps(tele_data))
+    global ws
+    if ws and ws.sock and ws.sock.connected:
+        ws.send(json.dumps(tele_data))
 
 def on_message(ws, message):
     data = json.loads(message)
@@ -31,7 +37,7 @@ def on_close(ws, close_status_code, close_msg):
 training_send()
 
 socket = websocket.WebSocketApp(
-    'ENTER VALUES HERE',
+    'PUT VALUES HERE',
     on_open=on_open,
     on_message=on_message,
     on_close=on_close,

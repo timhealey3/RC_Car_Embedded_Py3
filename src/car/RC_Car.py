@@ -48,14 +48,20 @@ class RC_Car:
         with self.lock:
             if newDirection == Direction.FORWARD:
                 self.forward = 1
+                self.telemetry.forward = 1
             elif newDirection == Direction.BACK:
                 self.forward = 0
+                self.telemetry.forward = 0
             elif newDirection == Direction.RIGHT:
                 self.left = 0
                 self.right = 1
+                self.telemetry.left = 0
+                self.telemetry.right = 1
             elif newDirection == Direction.LEFT:
                 self.left = 1
                 self.right = 0
+                self.telemetry.left = 1
+                self.telemetry.right = 0
 
     def turn_left(self):
         self.update_direction(Direction.LEFT)
@@ -85,7 +91,11 @@ class RC_Car:
 
     def throttleHelper(self, newThrottle):
         print("in throttle helper")
-        if self.telemetry.throttle + newThrottle < 4:
+        if self.telemetry.throttle + newThrottle <= 0:
+            print("RC_Car is at zero speed")
+            self.telemetry.throttle = 0
+            self.control.motorsStop()
+        elif self.telemetry.throttle + newThrottle < 4:
             print(f"changing speed to {self.telemetry.throttle + newThrottle}")
             self.telemetry.throttle += newThrottle
             self.control.motorsForward(self.telemetry.throttle)
@@ -93,11 +103,6 @@ class RC_Car:
             print("RC_Car is at max speed")
             self.telemetry.throttle = 4
             self.control.motorsForward(self.telemetry.throttle)
-        elif self.telemetry.throttle + newThrottle <= 0:
-            print("RC_Car is at zero speed")
-            self.telemetry.throttle = 0
-            self.control.motorsStop()
-
 
 class Direction(Enum):
     FORWARD = 0
