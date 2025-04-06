@@ -12,8 +12,8 @@
 #define PIN1_MOTOR2    23
 #define PIN2_MOTOR2    24
 // back motor pins
-#define PIN1_MOTOR3    26
-#define PIN2_MOTOR3    13
+#define PIN1_MOTOR3    13
+#define PIN2_MOTOR3    26
 #define PIN1_MOTOR4    6
 #define PIN2_MOTOR4    5
 

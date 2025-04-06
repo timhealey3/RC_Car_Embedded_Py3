@@ -93,15 +93,30 @@ void motorsForward(int throttle) {
 }
 
 void turnRight() {
-    // turn motor 2 off
-    gpioWrite(PIN1_MOTOR2, PI_LOW);
-    gpioWrite(PIN2_MOTOR2, PI_LOW);
-}
-
-void turnLeft() {
-    // turn motor 1
+    // turn motor 1 and 3 off
     gpioWrite(PIN1_MOTOR1, PI_LOW);
     gpioWrite(PIN2_MOTOR1, PI_LOW);
+    gpioWrite(PIN1_MOTOR3, PI_LOW);
+    gpioWrite(PIN2_MOTOR3, PI_LOW);
+}
+
+void turnLeft(int throttle) {
+    // turn motor 2 and 4 off
+    gpioWrite(PIN1_MOTOR2, PI_LOW);
+    gpioWrite(PIN2_MOTOR2, PI_LOW);
+    gpioWrite(PIN1_MOTOR4, PI_LOW);
+    gpioWrite(PIN2_MOTOR4, PI_LOW);
+}
+
+void straighten() {
+    gpioWrite(PIN1_MOTOR1, PI_HIGH);
+    gpioWrite(PIN2_MOTOR1, PI_LOW);
+    gpioWrite(PIN1_MOTOR2, PI_HIGH);
+    gpioWrite(PIN2_MOTOR2, PI_LOW);
+    gpioWrite(PIN1_MOTOR3, PI_HIGH);
+    gpioWrite(PIN2_MOTOR3, PI_LOW);
+    gpioWrite(PIN1_MOTOR4, PI_HIGH);
+    gpioWrite(PIN2_MOTOR4, PI_LOW);
 }
 
 int setup() {

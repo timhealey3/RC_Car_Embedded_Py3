@@ -45,5 +45,8 @@ def incoming_data(data):
         if data.get('turn') == "RIGHT":
             print("Debug - Handle Message: Right")
             rc_car.turn_right()
+        if data.get('turn') == "STRAIGHTEN":
+            print("Debug - Handle Message: Straighten")
+            rc_car.straighten()
     else:
         print("Unknown command status")

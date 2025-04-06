@@ -62,14 +62,23 @@ class RC_Car:
                 self.right = 0
                 self.telemetry.left = 1
                 self.telemetry.right = 0
+            elif newDirection == Direction.STRAIGHTEN:
+                self.left = 0
+                self.right = 0
+                self.telemetry.left = 0
+                self.telemetry.right = 0
 
     def turn_left(self):
         self.update_direction(Direction.LEFT)
-        self.control.turnLeft()
+        self.control.turnLeft(self.telemetry.throttle)
 
     def turn_right(self):
         self.update_direction(Direction.RIGHT)
         self.control.turnRight()
+
+    def straighten(self):
+        self.update_direction(Direction.STRAIGHTEN)
+        self.control.straighten()
 
     def stop(self):
         print("stop car")
@@ -109,3 +118,4 @@ class Direction(Enum):
     BACK = 1
     LEFT = 2
     RIGHT = 3
+    STRAIGHTEN = 4
