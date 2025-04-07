@@ -9,7 +9,7 @@ ws = None
 def training_send():
     print("training data send")
     handle_message.training_data()
-    threading.Timer(10, training_send).start()
+    threading.Timer(.25, training_send).start()
 
 def on_open(ws_param):
     global ws
@@ -37,7 +37,7 @@ def on_close(ws, close_status_code, close_msg):
 training_send()
 
 socket = websocket.WebSocketApp(
-    'PUT VALUES HERE',
+    'data here',
     on_open=on_open,
     on_message=on_message,
     on_close=on_close,

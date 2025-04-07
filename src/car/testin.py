@@ -5,7 +5,14 @@ result = Control.setup()
 Control.motorsForward(0);
 time.sleep(1);
 Control.motorsForward(1);
-time.sleep(1);
+
+time.sleep(1)
+print("turn logic")
+Control.turnLeft(1)
+time.sleep(5);
+print("straighten")
+Control.straighten()
+time.sleep(2)
 Control.motorsForward(2);
 time.sleep(1);
 Control.motorsForward(3);
