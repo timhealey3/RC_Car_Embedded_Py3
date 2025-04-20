@@ -43,21 +43,15 @@ class NeuralNetwork(nn.Module):
             # flatten CNN 3d features for linear models
             nn.Flatten(),
             # dense
-            nn.Linear(1164, 100),
+            nn.Linear(1152, 100),
             nn.ELU(),
             nn.Linear(100, 50),
             nn.ELU(),
             nn.Linear(50, 10),
             nn.ELU(),
             # output node
-            nn.Linear(10, 1),
+            nn.Linear(10, 3),
         )
 
     def forward(self, x):
         return self.model(x)
-
-model = NeuralNetwork()
-# Mean squared error loss function
-criterion = nn.MSELoss()
-# adam optimizer
-optimizer = optim.Adam(model.parameters(), lr=1e-3)

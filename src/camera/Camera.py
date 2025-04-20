@@ -40,6 +40,14 @@ class Camera:
         else:
             raise Exception("Camera is not ready, auto mode")
 
+    def calc_steering_angle(self, left, right):
+        steering_angle = 0
+        if left != 0:
+            steering_angle = -1
+        elif right != 0:
+            steering_angle = 1
+        return steering_angle
+
     def take_photo_training(self, forward, left, right):
         if self.camera_ready:
             print("Photo taken")
@@ -52,7 +60,8 @@ class Camera:
             self.pilImage = Image.fromarray(self.processed_image)
             self.image_name = 'training_' + str(datetime.now()) +'.jpg'
             self.pilImage.save('../camera/training/' + self.image_name)
-            self.df = pd.DataFrame([[self.image_name, forward, left, right]], columns=["img", "forward", "left", "right"])
+            self.steering_angle = self.calc_steering_angle(left, right)
+            self.df = pd.DataFrame([[self.image_name, forward, self.steering_angle]], columns=["img", "forward", "steering_angle"])
             self.df.to_csv('../camera/training_data.csv', mode='a', index=False, header=False)
             print("Photo saved and processed")
         else:
