@@ -1,3 +1,4 @@
+from random import shuffle
 import pandas as pd
 from torchvision.io import read_image
 from torch.utils.data import Dataset
@@ -6,6 +7,24 @@ import cv2
 import os
 from PIL import Image
 from imgaug import augmenters as iaa
+
+def balance_data(data):
+    num_bins = 25
+    samples_per_bin = 400
+    hist, bins = np.histogram(data['steering_angle'], num_bins)
+    print(hist)
+    print(bins)
+    remove_list = []
+    for j in range(num_bins):
+        list_ = []
+        for i in range(len(data['steering_angle'])):
+            if data['steering_angle'][i] >= bins[j] and data['steering_angle'][i] <= bins[j + 1]:
+                list_.append(i)
+            shuffle(list_)
+            list_ = list_[samples_per_bin:] 
+            remove_list.extend(list_)
+    data.drop(data.index[remove_list], inplace=True)
+    return data
 
 def custom_transform(image, label):
     np_img = np.array(image)
@@ -78,7 +97,8 @@ class CustomImageDataset(Dataset):
         self.folder_dir = folder_dir
         self.transform = transform
         self.target_transform = target_transform
-    
+        # self.img_labels = balance_data(self.img_labels)
+
     def __len__(self):
         return len(self.img_labels)
     
