@@ -5,6 +5,9 @@ from RC_Car import RC_Car
 
 print("Setting up websocket")
 rc_car = RC_Car()
+model = NeuralNetwork()
+model.load_state_dict(torch.load('../models/latest_model.pth', weights_only=True))
+model.eval()
 
 def get_data():
     print("Info - get data")
@@ -12,7 +15,14 @@ def get_data():
 
 def training_data():
     print("Info - Entering training data process")
-    rc_car.training()
+    if rc_car.autonomous_mode:
+        print("Info - Car is in autonomous mode, cannot enter training mode")
+        # photo
+        image = rc_car.camera.take_photo_auto()
+        prediction = model.predict(image)
+        print(prediction)
+    else:
+        rc_car.training()
 
 def incoming_data(data):
     print(f"Debug - Handle Message: Incoming data: {data}")
@@ -31,6 +41,11 @@ def incoming_data(data):
     if data.get('status') == "TRAINING":
         print("Info - Handle Message: Car is in training mode")
         rc_car.training_mode = True
+
+    if data.get('status') == "AUTO":
+        print("car into autonomous mode")
+        rc_car.autonomous_mode = True
+
 
     elif data.get('status') == 'NONE':
         if data.get('forward') == "FORWARD":

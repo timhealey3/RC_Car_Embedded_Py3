@@ -30,6 +30,7 @@ class Camera:
             self.stream.seek(0)
             self.image = Image.open(self.stream)
             self.image_array = np.array(self.image)
+            return self.image_array
         else:
             raise Exception("Camera is not ready, auto mode")
 
