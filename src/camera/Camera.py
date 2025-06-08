@@ -22,12 +22,6 @@ class Camera:
         self.camera_ready = True
         print("Camera is ready for use")
 
-    def img_preprocess(self, image):
-        print("preprocessing image")
-        self.img = cv2.cvtColor(image, cv2.COLOR_RGB2YUV)
-        self.img = np.flipud(self.img)
-        return self.img
-
     # does not save photo
     def take_photo_auto(self):
         if self.camera_ready:
@@ -36,16 +30,15 @@ class Camera:
             self.stream.seek(0)
             self.image = Image.open(self.stream)
             self.image_array = np.array(self.image)
-            self.processed_image = self.img_preprocess(self.image_array)
         else:
             raise Exception("Camera is not ready, auto mode")
 
     def calc_steering_angle(self, left, right):
-        steering_angle = 0
+        steering_angle = "0"
         if left != 0:
-            steering_angle = -1
+            steering_angle = "-1"
         elif right != 0:
-            steering_angle = 1
+            steering_angle = "1"
         return steering_angle
 
     def take_photo_training(self, forward, left, right):
@@ -60,7 +53,9 @@ class Camera:
             self.pilImage = Image.fromarray(self.processed_image)
             self.image_name = 'training_' + str(datetime.now()) +'.jpg'
             self.pilImage.save('../camera/training/' + self.image_name)
+            print("start")
             self.steering_angle = self.calc_steering_angle(left, right)
+            print("end")
             self.df = pd.DataFrame([[self.image_name, forward, self.steering_angle]], columns=["img", "forward", "steering_angle"])
             self.df.to_csv('../camera/training_data.csv', mode='a', index=False, header=False)
             print("Photo saved and processed")
