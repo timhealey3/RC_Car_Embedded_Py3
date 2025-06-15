@@ -1,3 +1,4 @@
+from model.model import NeuralNetwork
 import websocket
 import json
 import handle_message

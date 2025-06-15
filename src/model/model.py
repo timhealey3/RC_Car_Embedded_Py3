@@ -39,6 +39,7 @@ class NeuralNetwork(nn.Module):
                 out_channels=64,
                 kernel_size=3,
             ),
+            nn.BatchNorm2d(64),
             nn.ELU(),
             # flatten CNN 3d features for linear models
             nn.Flatten(),
