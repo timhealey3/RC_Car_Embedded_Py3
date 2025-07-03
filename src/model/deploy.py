@@ -3,25 +3,21 @@ import os
 import cv2
 import torch
 import numpy as np
-from PIL import Image
+import random
 
-def preprocess_image(image_path, target_size=(200, 66)):
+def preprocess_image(image_path):
     """Preprocess the image to match training format"""
     # Read image
     image = cv2.imread(image_path)
-    if image is None:
-        raise FileNotFoundError(f"Could not load image at {image_path}")
-    
-    # Convert BGR to RGB (if needed)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    
-    # Apply same preprocessing as in training
-    image = cv2.GaussianBlur(image, (3, 3), 0)
-    image = cv2.resize(image, target_size)
-    image = image.astype(np.float32) / 255.0
-    # Convert to PyTorch tensor format: (C, H, W)
-    image = np.transpose(image, (2, 0, 1))
-    return torch.FloatTensor(image).unsqueeze(0)  # Add batch dimension
+    np_img = np.array(image)
+    height = np_img.shape[0]
+    np_img = np_img[height // 3 + 30:-310, :, :]
+    np_img = cv2.cvtColor(np_img, cv2.COLOR_BGR2RGB)
+    np_img = cv2.cvtColor(np_img, cv2.COLOR_RGB2HSV)
+    np_img = cv2.GaussianBlur(np_img, (3, 3), 0)
+    np_img = cv2.resize(np_img, (200, 66))
+    np_img = np_img / 255
+    return np_img
 
 def main():
     # Initialize model
@@ -29,7 +25,7 @@ def main():
     model = NeuralNetwork().to(device)
     
     # Load trained weights
-    model_path = os.path.join(os.path.dirname(__file__), '../../models/models', 'models', 'latest_model.pth')
+    model_path = os.path.join(os.path.dirname(__file__), '../../models', 'latest_model.pth')
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Model not found at {model_path}")
     
@@ -47,12 +43,20 @@ def main():
         raise FileNotFoundError(f"No images found in {image_dir}")
     
     # Use the first available image
-    image_path = os.path.join(image_dir, image_files[0])
+    random_num = random.randint(0, 2000)
+    image_path = os.path.join(image_dir, image_files[random_num])
     print(f"Using image: {image_path}")
     
     try:
         # Preprocess and predict
-        input_tensor = preprocess_image(image_path).to(device)
+        input_tensor = torch.tensor(preprocess_image(image_path), dtype=torch.float32)
+        if input_tensor.dim() == 4 and input_tensor.shape[-1] in [1, 3]:  # NHWC to NCHW if needed
+            input_tensor = input_tensor.permute(0, 3, 1, 2).contiguous()
+        
+        # Convert to float32 if needed
+        if input_tensor.dtype != torch.float32:
+            input_tensor = input_tensor.float()
+        
         with torch.no_grad():
             output = model(input_tensor)
             probabilities = torch.softmax(output, dim=1)

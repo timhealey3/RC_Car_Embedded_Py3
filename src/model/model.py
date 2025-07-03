@@ -1,8 +1,4 @@
-import torch
 from torch import nn
-import numpy
-import torch.optim as optim
-import matplotlib.pyplot as plt
 
 class NeuralNetwork(nn.Module):
     def __init__(self):
@@ -14,7 +10,6 @@ class NeuralNetwork(nn.Module):
                 out_channels=24,
                 kernel_size=5,
                 stride=2),
-            #nn.BatchNorm2d(24),
             nn.ELU(),
             # CNN feature map
             nn.Conv2d(
@@ -22,21 +17,18 @@ class NeuralNetwork(nn.Module):
                 out_channels=36,
                 kernel_size=5,
                 stride=2),
-            #nn.BatchNorm2d(36),
             nn.ELU(),
             nn.Conv2d(
                 in_channels=36, 
                 out_channels=48,
                 kernel_size=5,
                 stride=2),
-            nn.BatchNorm2d(48),
             nn.ELU(),
             nn.Conv2d(
                 in_channels=48, 
                 out_channels=64,
                 kernel_size=3,
             ),
-            nn.BatchNorm2d(64),
             nn.ELU(),
             nn.Conv2d(
                 in_channels=64, 

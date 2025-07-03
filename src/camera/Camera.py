@@ -1,14 +1,12 @@
 from time import sleep
 from picamera import PiCamera
 from PIL import Image
-import cv2
 from io import BytesIO
 import numpy as np
 import pandas as pd
 from datetime import datetime
 import sys
 sys.path.append('/home/timh/codingProjects/src/car')
-import Telemetry
 
 class Camera:
     def __init__(self):
